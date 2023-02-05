@@ -1,4 +1,4 @@
-// VERSION 1 
+// // VERSION 1 
 
 // // fetch("http://localhost:5678/api/works").then((res) => res.json()).then((data) => {
 // //     console.log(data);
@@ -13,10 +13,11 @@
 
 //     const works = await fetch('http://localhost:5678/api/works')
 //     .then((works) => works.json())
+//     .then((project) => getWorks(project))
 //     .catch((error) => {console.log(error);
 // })
   
-   
+// })();
 //     // console.log(works);
 //     function getWorks(works) {
 
@@ -51,7 +52,7 @@
 //         }
 //     }
 
-//     getWorks(works);
+//     // getWorks(works);
         
 //         // ----------------------------------------------------------------/
 
@@ -123,118 +124,93 @@
 
 
 
-// })();
+
 
 
 
 
 //************************* */ VERSION 2 ***********************************************// 
-
- let works = [];
+let works = [];
 
 const getAllWorks = async () => {
-   await fetch("http://localhost:5678/api/works")
-    .then((res) => res.json())
-    .then((data) => works = data)
-    .catch((error) => {console.log(error)});
- 
-};
+    await fetch("http://localhost:5678/api/works")
+     .then((res) => res.json())
+     .then((data) => works = data)
+     .catch((error) => {console.log(error)});
+  
+ };
 
-
-
-
-const worksDisplay = async () => {
-   await  getAllWorks(); 
-
-   
-   for (let i = 0; i < works.length; i++) {
-       
-       const work = works[i];
-        const imageElement = document.createElement("img");
- imageElement.src = work.imageUrl;
-imageElement.crossOrigin = "anonymous";
- imageElement.classList.add("testimg");
-
-const nomElement = document.createElement("p");
- nomElement.innerText = work.title;
-
- const sectionTest = document.querySelector(".test");
-
-sectionTest.appendChild(imageElement);
- sectionTest.appendChild(nomElement);
-
-}
-}
-
-worksDisplay();
-
-
-function filterDisplay(works) {
-   
-    
+ const display = (works) => {
     for (let i = 0; i < works.length; i++) {
-        
+       
         const work = works[i];
+        const figureElement = document.createElement("figure");
          const imageElement = document.createElement("img");
   imageElement.src = work.imageUrl;
+  imageElement.alt = work.title;
  imageElement.crossOrigin = "anonymous";
   imageElement.classList.add("testimg");
  
- const nomElement = document.createElement("p");
+ const nomElement = document.createElement("figcaption");
   nomElement.innerText = work.title;
  
-  const sectionTest = document.querySelector(".test");
+  const sectionGallery = document.querySelector(".gallery");
  
- sectionTest.appendChild(imageElement);
-  sectionTest.appendChild(nomElement);
- 
+  sectionGallery.appendChild(figureElement);
+ figureElement.appendChild(imageElement);
+  figureElement.appendChild(nomElement);
  }
  }
+ 
+const worksDisplay = async () => {
+    await  getAllWorks(); 
+    display(works);
+}
 
+const filterDisplay = (works) => {
+display(works);
+ }
 
-  // config bouton tout 
-
-    
+ const filterEvent = () => {
+     // config bouton tout 
+        
      const boutonTout = document.querySelector(".btn-tout");
- boutonTout.addEventListener("click", () => {
-    document.querySelector(".test").innerHTML = "";
+     boutonTout.addEventListener("click", () => {
+    document.querySelector(".gallery").innerHTML = "";
     worksDisplay();
  });
-
-
-
-// config bouton objet
-
-    const boutonObjet = document.querySelector(".btn-objet");
-    
+ 
+ // config bouton objet
+ 
+ const boutonObjet = document.querySelector(".btn-objet");
+ 
  boutonObjet.addEventListener("click", () => {
      const photosObjets = works.filter((work)=>{
          return work.categoryId === 1;
-     });
-    document.querySelector(".test").innerHTML = "";
-   filterDisplay(photosObjets);
- });
-
-
- // // configuration bouton filtre Appartements 
-
+        });
+    document.querySelector(".gallery").innerHTML = "";
+    filterDisplay(photosObjets);
+});
+// // configuration bouton filtre Appartements 
  const boutonAppartement = document.querySelector(".btn-appartement");
  boutonAppartement.addEventListener("click", () => {
      const photosObjets = works.filter((work)=>{
          return work.categoryId === 2;
-     });
-    document.querySelector(".test").innerHTML = "";
-    filterDisplay(photosObjets);
- });
-
-
-// // Config bouton hotel resto 
-
- const boutonHotel = document.querySelector(".btn-hotel");
- boutonHotel.addEventListener("click", () => {
-     const photosObjets = works.filter((work)=>{
+        });
+        document.querySelector(".gallery").innerHTML = "";
+        filterDisplay(photosObjets);
+    });  
+    // // Config bouton hotel resto   
+    const boutonHotel = document.querySelector(".btn-hotel");
+    boutonHotel.addEventListener("click", () => {
+        const photosObjets = works.filter((work)=>{
          return work.categoryId === 3;
      });
-    document.querySelector(".test").innerHTML = "";
+    document.querySelector(".gallery").innerHTML = "";
     filterDisplay(photosObjets);
- });
+});
+}
+
+
+worksDisplay();
+filterEvent();
