@@ -318,9 +318,17 @@ footer nav ul {
 #login input {
   height: 50px;
   font-size: 1.2em;
-  border: none;
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+  outline: none;
 }
 #login label {
   margin: 2em 0 1em 0;
+}
+
+#email-log {
+  border: none;
+}
+
+#password {
+  border: none;
 }
