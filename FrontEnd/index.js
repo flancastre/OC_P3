@@ -130,6 +130,42 @@
 
 
 //************************* */ VERSION 2 ***********************************************// 
+
+const modalEdit = document.getElementById("modalEdit");
+const logOut = document.getElementById("logOut");
+const logIn = document.getElementById("logIn");
+const edits = document.querySelectorAll(".edit");
+const modal = document.getElementById("modalContainer");
+const cross = document.getElementById("cross");
+
+const token = JSON.parse(localStorage.getItem("token"));
+if(token != null) {
+    console.log("user connecter");
+
+    logOut.style.display = "block";
+    logIn.style.display = "none";
+   edits.forEach((edit) => {
+    edit.style.visibility = "visible";
+   });
+
+} else {
+    console.log("user deconecter");
+
+    logOut.style.display = "none";
+    logIn.style.display= "block";
+    edits.forEach((edit) => {
+        edit.style.visibility = "hiden";
+       });
+}
+
+
+logOut.addEventListener('click' , (e) => {
+    localStorage.removeItem("token");
+    document.location.href="index.html";
+})
+
+
+
 let works = [];
 
 const getAllWorks = async () => {
@@ -210,6 +246,19 @@ display(works);
     filterDisplay(photosObjets);
 });
 }
+
+
+modalEdit.addEventListener("click" , (e) => {
+    e.preventDefault();
+    modal.style.display = "block";
+    document.body.style.background = "rgba(0,0,0,0.5)";
+    
+})
+
+cross.addEventListener("click" , (e) => {
+    modal.style.display = "none";
+})
+
 
 
 worksDisplay();

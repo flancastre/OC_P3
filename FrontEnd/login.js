@@ -36,55 +36,74 @@ const email = document.querySelector("#email-log");
 const password = document.querySelector("#password");
 let mail, passwords;
 
-email.addEventListener("input", (e) => {
 
-    mail = e.target.value;
+const logUser = async () => {
 
-    if(mail === "sophie.bluel@test.tld") {
-        email.style.border = "solid green 1px";
-    } else {
-        email.style.border = "solid red 1px";
-    }
- 
-});
-
-password.addEventListener("input", (e) => {
-
-    passwords = e.target.value;
- 
-    if(passwords === "S0phie") {
-        password.style.border = "solid green 1px";
-    } else {
-        password.style.border = "solid red 1px";
-    }
-
-});
-
-form.addEventListener("submit", (e) => {
-    e.preventDefault();
     const users = {
         email: mail,
         password: passwords
     }
 
+    localStorage.removeItem("token");
+
     const chargeUtile = JSON.stringify(users);
     
-     fetch("http://localhost:5678/api/users/login", {
+   await  fetch("http://localhost:5678/api/users/login", {
         method: "POST",
         headers: { "Content-Type": "application/json"},
         body: chargeUtile,
         mode: "cors",
         cretentials: "same-origin"
      })
- .then((res) => res.json())
+ .then((res) => {
+    if (!res.ok) {
+        alert('Email ou mot de passe incorect veuillez réesayer');
+        throw new Error("HTTP status " + res.status);
+       
+    }
+    return res.json();
+    
+ })
  .then((data) => window.localStorage.setItem("token", JSON.stringify(data.token)))
  .catch((error) => {console.log(error)});
 
- 
+ await logRedirection();
 
+
+}
+
+const logRedirection = async () => {
+    
+const token = JSON.parse(localStorage.getItem("token"));
+if (token != null ){
+    alert('connexion reussi vous allez etre rediridez...');
+    document.location.href="index.html";
+
+}
+}
+
+
+email.addEventListener("input", (e) => {
+
+    mail = e.target.value;
+
+});
+
+password.addEventListener("input", (e) => {
+
+    passwords = e.target.value;
+ 
+});
+
+form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+     logUser();
 
 
 });
+
+
 
 
 

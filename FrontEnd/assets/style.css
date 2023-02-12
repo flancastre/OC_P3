@@ -184,6 +184,11 @@ li:hover {
 #introduction figure {
   flex: 1;
 }
+
+#introduction figure span {
+  margin-left: 48px;
+}
+
 #introduction img {
   display: block;
   margin: auto;
@@ -201,8 +206,11 @@ li:hover {
   margin-bottom: 0.5em;
 }
 #portfolio h2 {
-  text-align: center;
+  text-align: right;
   margin-bottom: 1em;
+  display: inline-block;
+  width: 58%;
+  margin-right: 20px;
 }
 .gallery {
   width: 100%;
@@ -331,4 +339,53 @@ footer nav ul {
 
 #password {
   border: none;
+}
+
+a {
+  color: black;
+  text-decoration: none;
+}
+
+.link a:hover {
+  font-weight: bold;
+}
+
+/* #modalEdit {
+  visibility: hidden;
+} */
+
+#logOut {
+  display: none;
+}
+
+#logIn {
+  display: block;
+}
+
+.edit {
+  visibility: hidden;
+}
+
+.edit:hover {
+  font-weight: bold;
+}
+
+#log-login {
+  font-weight: bold;
+}
+
+#modalContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: none;
+}
+
+#modale {
+  height: 100px;
+  width: 100px;
+  background: red;
 }

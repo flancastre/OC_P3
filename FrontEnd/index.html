@@ -11,16 +11,18 @@
 		rel="stylesheet">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
 </head>
 
 <body>
 	<header>
 		<h1>Sophie Bluel <span>Architecte d'inteérieur</span></h1>
 		<nav>
-			<ul>
+			<ul class="link">
 				<li><a href="#portfolio">projets</a></li>
 				<li><a href="#contact">contact </a></li>
-				<li><a href="login.html">login</a></li>
+				<li id="logIn"><a href="login.html">login</a></li>
+				<li id="logOut"><a href="#">logout</a></li>
 				<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 			</ul>
 		</nav>
@@ -29,8 +31,10 @@
 		<section id="introduction">
 			<figure>
 				<img src="./assets/images/sophie-bluel.png" alt="">
+				<span class="edit"><a href=""><i class="fa-regular fa-pen-to-square"></i> modifier</a></span>
 			</figure>
 			<article>
+				<span class="edit"><a href=""><i class="fa-regular fa-pen-to-square"></i> modifier</a></span>
 				<h2>Designer d'espace</h2>
 				<p>Je raconte votre histoire, je valorise vos idées. Je vous accompagne de la conception à la livraison
 					finale du chantier.</p>
@@ -42,7 +46,9 @@
 			</article>
 		</section>
 		<section id="portfolio">
-			<h2>Mes Projets</h2>
+			<h2>Mes Projets</h2> <span id="modalEdit" class="edit"><a href=""><i
+						class="fa-regular fa-pen-to-square"></i>
+					modifier</a></span>
 			<ul class="bouton-filter">
 				<li><button class="btn-tout"> Tous</button>
 				<li><button class="btn-objet"> Objets</button></li>
@@ -53,13 +59,7 @@
 
 			</div>
 		</section>
-		<section>
-			<h2>Section test </h2>
 
-
-			<section class="test"></section>
-
-		</section>
 		<section id="contact">
 			<h2>Contact</h2>
 			<p>Vous avez un projet ? Discutons-en !</p>
@@ -73,6 +73,14 @@
 				<input type="submit" value="Envoyer">
 			</form>
 		</section>
+
+		<section id="modalContainer">
+
+			<div id="modale">
+				<span id="cross"><i class="fa-solid fa-xmark"></i></span>
+			</div>
+
+		</section>
 	</main>
 
 	<footer>
@@ -83,6 +91,7 @@
 		</nav>
 	</footer>
 	<script src="index.js"></script>
+
 </body>
 
 </html>
