@@ -1,135 +1,4 @@
-// // VERSION 1 
 
-// // fetch("http://localhost:5678/api/works").then((res) => res.json()).then((data) => {
-// //     console.log(data);
-   
-  
-// // })
-
-// // Recupère les travaux et les affiche sur le dom 
-
-
-// (async ()=> {
-
-//     const works = await fetch('http://localhost:5678/api/works')
-//     .then((works) => works.json())
-//     .then((project) => getWorks(project))
-//     .catch((error) => {console.log(error);
-// })
-  
-// })();
-//     // console.log(works);
-//     function getWorks(works) {
-
-//         for (let i = 0; i < works.length; i++) {
-            
-//             const work = works[i];
-            
-//             // console.log(work);
-            
-//             // On boucle pour afficher tout les traveaux 
-            
-//             const sectionTest = document.querySelector(".test");
-            
-//             const photoElement = document.createElement("article");
-            
-//             const imageElement = document.createElement("img");
-//             imageElement.src = work.imageUrl;
-//             imageElement.crossOrigin = "anonymous";
-//             imageElement.classList.add("testimg");
-            
-//             const nomElement = document.createElement("p");
-//             nomElement.innerText = work.title;
-            
-//             sectionTest.appendChild(photoElement);
-            
-//             photoElement.appendChild(imageElement);
-//             photoElement.appendChild(nomElement);
-            
-            
-            
-            
-//         }
-//     }
-
-//     // getWorks(works);
-        
-//         // ----------------------------------------------------------------/
-
-//         // première versions sans boucle récuperation des travaux
-//     // const imageElement = document.createElement("img");
-//     // imageElement.src = work.imageUrl;
-//     // imageElement.crossOrigin = "anonymous";
-//     // imageElement.classList.add("testimg");
-
-//     // const nomElement = document.createElement("p");
-//     // nomElement.innerText = work.title;
-
-//     // const sectionTest = document.querySelector(".test");
-
-//     // sectionTest.appendChild(imageElement);
-//     // sectionTest.appendChild(nomElement);
-
-
-//     // ---------------------------------------------------------------
-//         //  test de mapping
-//     // const name = works.map(work => work.categoryId);
-//     // console.log(name);
-
-
-//     // config bouton tout 
-
-    
-//     const boutonTout = document.querySelector(".btn-tout");
-// boutonTout.addEventListener("click", () => {
-//    document.querySelector(".test").innerHTML = "";
-//    getWorks(works);
-// });
-
-
-//     // configuration bouton filtre Object
-
-//     const boutonObjet = document.querySelector(".btn-objet");
-// boutonObjet.addEventListener("click", () => {
-//     const photosObjets = works.filter((work)=>{
-//         return work.categoryId === 1;
-//     });
-//    document.querySelector(".test").innerHTML = "";
-//    getWorks(photosObjets);
-// });
-
-
-// // configuration bouton filtre Appartements 
-
-// const boutonAppartement = document.querySelector(".btn-appartement");
-// boutonAppartement.addEventListener("click", () => {
-//     const photosObjets = works.filter((work)=>{
-//         return work.categoryId === 2;
-//     });
-//    document.querySelector(".test").innerHTML = "";
-//    getWorks(photosObjets);
-// });
-
-
-// // Config bouton hotel resto 
-
-// const boutonHotel = document.querySelector(".btn-hotel");
-// boutonHotel.addEventListener("click", () => {
-//     const photosObjets = works.filter((work)=>{
-//         return work.categoryId === 3;
-//     });
-//    document.querySelector(".test").innerHTML = "";
-//    getWorks(photosObjets);
-// });
-
-
-
-
-
-
-
-
-//************************* */ VERSION 2 ***********************************************// 
 
 const modalEdit = document.getElementById("modalEdit");
 const logOut = document.getElementById("logOut");
@@ -137,6 +6,8 @@ const logIn = document.getElementById("logIn");
 const edits = document.querySelectorAll(".edit");
 const modal = document.getElementById("modalContainer");
 const cross = document.getElementById("cross");
+const test = document.querySelector(".test");
+
 
 const token = JSON.parse(localStorage.getItem("token"));
 if(token != null) {
@@ -176,7 +47,37 @@ const getAllWorks = async () => {
   
  };
 
- const display = (works) => {
+ console.log(token);
+
+ 
+const suppCall = () => {
+    const supp = document.querySelectorAll(".trashClass");
+    supp.forEach((sup) => {
+        sup.addEventListener("click", (e) => {
+
+            fetch("http://localhost:5678/api/works/" + e.target.id, {
+        method: "DELETE",
+        headers: { 'accept': '*/*',
+                     'Authorization': `Bearer ${localStorage.getItem("token")}`},
+        mode: "cors",
+        cretentials: "same-origin"
+     }).then(res => res.json())
+      .then(data => console.log(data))
+      .catch((error) => {console.log(error)})
+
+            
+        });       
+    });
+}
+
+
+
+
+
+
+   
+
+ const displayModals = (works) => {
     for (let i = 0; i < works.length; i++) {
        
         const work = works[i];
@@ -186,6 +87,50 @@ const getAllWorks = async () => {
   imageElement.alt = work.title;
  imageElement.crossOrigin = "anonymous";
   imageElement.classList.add("testimg");
+
+  const trash = document.createElement("img");
+  trash.src = "./assets/icons/trash.png";
+  trash.classList.add("trashClass");
+  trash.classList.add("iconClass");
+  trash.setAttribute("id" , [i+1]);
+
+ 
+ const editElement = document.createElement("figcaption");
+  editElement.innerText = "éditer";
+ 
+  const sectionGallery = document.querySelector(".modal-gallery");
+ 
+  sectionGallery.appendChild(figureElement);
+ figureElement.appendChild(imageElement);
+  figureElement.appendChild(editElement);
+  figureElement.appendChild(trash);
+ }
+
+
+ const switchs = document.querySelector(".modal-gallery figure:first-child");
+   switchs.innerHTML += ` <img src="./assets/icons/multidirection.png" class="deplaceClass iconClass">
+        `;
+  
+ }
+
+
+ const clearModals = () => {
+    const sectionModals = document.querySelector(".modal-gallery");
+    sectionModals.innerHTML = "";
+   
+ }
+ 
+
+ const display = (works) => {
+    for (let i = 0; i < works.length; i++) {
+       
+        const work = works[i];
+        const figureElement = document.createElement("figure");
+         const imageElement = document.createElement("img");
+  imageElement.src = work.imageUrl;
+  imageElement.alt = work.title;
+ imageElement.crossOrigin = "anonymous";
+//   imageElement.classList.add("testimg");
  
  const nomElement = document.createElement("figcaption");
   nomElement.innerText = work.title;
@@ -202,6 +147,14 @@ const worksDisplay = async () => {
     await  getAllWorks(); 
     display(works);
 }
+
+const modalsDisplay = async () => {
+    await  getAllWorks(); 
+    displayModals(works);
+    suppCall();
+}
+
+
 
 const filterDisplay = (works) => {
 display(works);
@@ -250,16 +203,38 @@ display(works);
 
 modalEdit.addEventListener("click" , (e) => {
     e.preventDefault();
-    modal.style.display = "block";
-    document.body.style.background = "rgba(0,0,0,0.5)";
-    
+    modal.style.display = "flex";
+    modalsDisplay();
+   
+   
 })
 
 cross.addEventListener("click" , (e) => {
     modal.style.display = "none";
+    // document.body.style.background = "white";
+    clearModals();
+
+})
+
+const stopPropa = document.getElementById('modale');
+
+stopPropa.addEventListener("click", (e) => {
+    e.stopPropagation();
+})
+
+
+test.addEventListener("click", () =>{
+    modal.style.display = "none";
+    clearModals();
+
 })
 
 
 
+ 
+
+
 worksDisplay();
 filterEvent();
+
+

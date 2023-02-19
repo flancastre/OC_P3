@@ -57,7 +57,7 @@ const logUser = async () => {
      })
  .then((res) => {
     if (!res.ok) {
-        alert('Email ou mot de passe incorect veuillez réesayer');
+        alert('“Erreur dans l\’identifiant ou le mot de passe”');
         throw new Error("HTTP status " + res.status);
        
     }
@@ -76,7 +76,7 @@ const logRedirection = async () => {
     
 const token = JSON.parse(localStorage.getItem("token"));
 if (token != null ){
-    alert('connexion reussi vous allez etre rediridez...');
+    alert('Connexion réussie vous allez être redirigés...');
     document.location.href="index.html";
 
 }
