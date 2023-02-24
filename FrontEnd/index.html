@@ -81,10 +81,38 @@
 				<h3>Galerie photo</h2>
 
 					<div class="modal-gallery"></div>
-
-					<button>Ajouter une photo</button>
+					<div id="msgModal"></div>
+					<button id="addPicture">Ajouter une photo</button>
 
 					<p>Supprimer de la galerie</p>
+
+			</div>
+
+			<div id="addWork">
+				<div class="icons">
+					<span id="back"><img src="./assets/icons/arrow.png" alt=""></span>
+					<span id="cross1"><i class="fa-solid fa-xmark"></i></span>
+				</div>
+
+				<h3>Ajout photo</h3>
+
+				<form action="#" method="post">
+
+					<input type="file">
+
+					<label for="title">Titre</label>
+					<input type="text" id="title">
+
+					<label for="category">Catégorie</label>
+					<select name="" id="category">
+						<option value="1"> Hotel</option>
+						<option value="2"> Bar</option>
+						<option value="3"> Chambre</option>
+					</select>
+
+					<input type="submit" value="Validerh">
+
+				</form>
 
 			</div>
 

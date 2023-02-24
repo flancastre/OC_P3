@@ -6,30 +6,42 @@ const logIn = document.getElementById("logIn");
 const edits = document.querySelectorAll(".edit");
 const modal = document.getElementById("modalContainer");
 const cross = document.getElementById("cross");
+const cross1 = document.getElementById("cross1");
 const test = document.querySelector(".test");
+const msgModal = document.getElementById("msgModal");
+const addPicture = document.getElementById("addPicture");
+const addWork = document.getElementById("addWork");
+const back = document.getElementById("back");
 
 
-const token = JSON.parse(localStorage.getItem("token"));
-if(token != null) {
-    console.log("user connecter");
 
-    logOut.style.display = "block";
-    logIn.style.display = "none";
-   edits.forEach((edit) => {
-    edit.style.visibility = "visible";
-   });
 
-} else {
-    console.log("user deconecter");
 
-    logOut.style.display = "none";
-    logIn.style.display= "block";
-    edits.forEach((edit) => {
-        edit.style.visibility = "hiden";
-       });
+
+const userStatus = () => {
+
+    const token = localStorage.getItem("token");
+    if(token != null) {
+        console.log("user connecter");
+        
+        logOut.style.display = "block";
+        logIn.style.display = "none";
+        edits.forEach((edit) => {
+            edit.style.visibility = "visible";
+        });
+        
+    } else {
+        console.log("user deconecter");
+        
+        logOut.style.display = "none";
+        logIn.style.display= "block";
+        edits.forEach((edit) => {
+            edit.style.visibility = "hiden";
+        });
+    }
+    
 }
-
-
+    
 logOut.addEventListener('click' , (e) => {
     localStorage.removeItem("token");
     document.location.href="index.html";
@@ -47,8 +59,6 @@ const getAllWorks = async () => {
   
  };
 
- console.log(token);
-
  
 const suppCall = () => {
     const supp = document.querySelectorAll(".trashClass");
@@ -58,24 +68,30 @@ const suppCall = () => {
             fetch("http://localhost:5678/api/works/" + e.target.id, {
         method: "DELETE",
         headers: { 'accept': '*/*',
-                     'Authorization': `Bearer ${localStorage.getItem("token")}`},
-        mode: "cors",
-        cretentials: "same-origin"
-     }).then(res => res.json())
-      .then(data => console.log(data))
+                     'Authorization': `Bearer ${localStorage.getItem("token")}`}
+     }).then(res => res)
+      .then(data => { 
+        if(!data.ok) {
+            msgModal.innerText = "Suppression Impossible";
+            msgModal.style.color = "red";
+            throw new Error("HTTP status " + data.status);
+        } else {
+            msgModal.innerText = "Travaux bien supprimer";
+            msgModal.style.color = "green";
+        }
+    
+            })
       .catch((error) => {console.log(error)})
 
-            
+
+             clearModals();
+          modalsDisplay();
+          clearWorks();
+         worksDisplay();
         });       
     });
 }
 
-
-
-
-
-
-   
 
  const displayModals = (works) => {
     for (let i = 0; i < works.length; i++) {
@@ -92,7 +108,7 @@ const suppCall = () => {
   trash.src = "./assets/icons/trash.png";
   trash.classList.add("trashClass");
   trash.classList.add("iconClass");
-  trash.setAttribute("id" , [i+1]);
+  trash.setAttribute("id" , work.id);
 
  
  const editElement = document.createElement("figcaption");
@@ -118,6 +134,11 @@ const suppCall = () => {
     const sectionModals = document.querySelector(".modal-gallery");
     sectionModals.innerHTML = "";
    
+ }
+
+ const clearWorks = () => {
+    const sectionWorks = document.querySelector(".gallery");
+    sectionWorks.innerHTML = "";
  }
  
 
@@ -211,29 +232,57 @@ modalEdit.addEventListener("click" , (e) => {
 
 cross.addEventListener("click" , (e) => {
     modal.style.display = "none";
-    // document.body.style.background = "white";
     clearModals();
+    msgModal.innerText = "";
 
 })
 
-const stopPropa = document.getElementById('modale');
+cross1.addEventListener("click" , (e) => {
+    modal.style.display = "none";
+    addWork.style.display = "none";
+    modalWork.style.display = "block";
+    clearModals();
+    msgModal.innerText = "";
 
-stopPropa.addEventListener("click", (e) => {
+})
+
+const modalWork = document.getElementById('modale');
+
+modalWork.addEventListener("click", (e) => {
+    e.stopPropagation();
+})
+
+addWork.addEventListener("click", (e) => {
     e.stopPropagation();
 })
 
 
 test.addEventListener("click", () =>{
     modal.style.display = "none";
+    addWork.style.display = "none";
+    modalWork.style.display = "block";
     clearModals();
+    msgModal.innerText = "";
 
 })
 
 
 
- 
+addPicture.addEventListener("click" , () => {
+    addWork.style.display = "block";
+    modalWork.style.display = "none";
+    msgModal.innerText = "";
+})
 
 
+back.addEventListener("click" , () => {
+   addWork.style.display = "none";
+   modalWork.style.display = "block";
+})
+
+
+
+userStatus();
 worksDisplay();
 filterEvent();
 

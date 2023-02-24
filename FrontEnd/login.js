@@ -64,7 +64,7 @@ const logUser = async () => {
     return res.json();
     
  })
- .then((data) => window.localStorage.setItem("token", JSON.stringify(data.token)))
+ .then((data) => window.localStorage.setItem("token", data.token))
  .catch((error) => {console.log(error)});
 
  await logRedirection();
@@ -74,7 +74,7 @@ const logUser = async () => {
 
 const logRedirection = async () => {
     
-const token = JSON.parse(localStorage.getItem("token"));
+const token = localStorage.getItem("token");
 if (token != null ){
     alert('Connexion réussie vous allez être redirigés...');
     document.location.href="index.html";

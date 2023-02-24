@@ -396,10 +396,11 @@ a {
 
 #modale {
   margin: 500px auto;
-  height: 1300px;
+  height: fit-content;
   width: 50%;
   background: white;
   position: relative;
+  border-radius: 10px;
 
   /* z-index: 20; */
 }
@@ -432,6 +433,7 @@ a {
   color: #d65353;
   font-size: 0.8rem;
   cursor: pointer;
+  margin-bottom: 50px;
 }
 
 #modale p:hover {
@@ -459,6 +461,10 @@ a {
   cursor: pointer;
 }
 
+#cross1 {
+  cursor: pointer;
+}
+
 .trashClass {
   background: black;
   width: 10px;
@@ -482,4 +488,54 @@ a {
 
 .iconClass:hover {
   transform: scale(1.1);
+}
+
+#msgModal {
+  text-align: center;
+  margin-top: 10px;
+}
+
+#addWork {
+  display: none;
+  margin: 500px auto;
+  height: fit-content;
+  width: 50%;
+  background: white;
+  position: relative;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.icons {
+  display: flex;
+  justify-content: space-between;
+}
+
+#addWork h3 {
+  text-align: center;
+  margin: 15px 0 40px 0;
+  font-size: 1.6rem;
+}
+#back {
+  cursor: pointer;
+}
+
+#addWork form {
+  text-align: left;
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+#addWork label {
+  margin: 2em 0 1em 0;
+}
+
+#addWork input,
+select {
+  height: 50px;
+  font-size: 1.2em;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+  outline: none;
+  border: none;
 }
