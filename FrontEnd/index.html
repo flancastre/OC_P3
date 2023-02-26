@@ -98,19 +98,28 @@
 
 				<form action="#" method="post">
 
-					<input type="file">
+
+					<div id="pic-background">
+						<div>
+							<img id="file-preview">
+						</div>
+						<img src="./assets/icons/picture.png" alt="picture">
+						<input id="file" type="file" accept="image/*" onchange="showPreview(event);">
+						<label id="pic" for="file"> <i class="fa-solid fa-plus"></i> Ajouter photo </label>
+						<p>jpg, png : 4mo max</p>
+					</div>
 
 					<label for="title">Titre</label>
 					<input type="text" id="title">
 
 					<label for="category">Catégorie</label>
 					<select name="" id="category">
-						<option value="1"> Hotel</option>
-						<option value="2"> Bar</option>
-						<option value="3"> Chambre</option>
+						<option value="1"> Objets</option>
+						<option value="2"> Appartments</option>
+						<option value="3"> Hotels & Restaurants</option>
 					</select>
 
-					<input type="submit" value="Validerh">
+					<input type="submit" value="Valider">
 
 				</form>
 

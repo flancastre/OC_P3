@@ -12,7 +12,7 @@ const msgModal = document.getElementById("msgModal");
 const addPicture = document.getElementById("addPicture");
 const addWork = document.getElementById("addWork");
 const back = document.getElementById("back");
-
+const preview = document.getElementById("file-preview");
 
 
 
@@ -84,10 +84,10 @@ const suppCall = () => {
       .catch((error) => {console.log(error)})
 
 
-             clearModals();
-          modalsDisplay();
-          clearWorks();
-         worksDisplay();
+        clearModals();
+        modalsDisplay();
+        clearWorks();
+        worksDisplay();
         });       
     });
 }
@@ -234,6 +234,8 @@ cross.addEventListener("click" , (e) => {
     modal.style.display = "none";
     clearModals();
     msgModal.innerText = "";
+    preview.style.display = "none";
+    preview.style.zIndex = "-1";
 
 })
 
@@ -243,6 +245,8 @@ cross1.addEventListener("click" , (e) => {
     modalWork.style.display = "block";
     clearModals();
     msgModal.innerText = "";
+    preview.style.display = "none";
+    preview.style.zIndex = "-1";
 
 })
 
@@ -263,6 +267,9 @@ test.addEventListener("click", () =>{
     modalWork.style.display = "block";
     clearModals();
     msgModal.innerText = "";
+    preview.style.display = "none";
+    preview.style.zIndex = "-1";
+    
 
 })
 
@@ -279,6 +286,20 @@ back.addEventListener("click" , () => {
    addWork.style.display = "none";
    modalWork.style.display = "block";
 })
+
+
+
+
+const showPreview = (event) => {
+    if(event.target.files.length > 0) {
+        let src = URL.createObjectURL(event.target.files[0]);
+        preview.src = src;
+        preview.style.display = "block";
+        preview.style.zIndex = "2";
+        
+    }
+}
+
 
 
 
