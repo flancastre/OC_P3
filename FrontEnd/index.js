@@ -13,6 +13,7 @@ const addPicture = document.getElementById("addPicture");
 const addWork = document.getElementById("addWork");
 const back = document.getElementById("back");
 const preview = document.getElementById("file-preview");
+const file = document.getElementById("file");
 
 
 
@@ -56,6 +57,8 @@ const getAllWorks = async () => {
      .then((res) => res.json())
      .then((data) => works = data)
      .catch((error) => {console.log(error)});
+
+ 
   
  };
 
@@ -181,45 +184,45 @@ const filterDisplay = (works) => {
 display(works);
  }
 
- const filterEvent = () => {
-     // config bouton tout 
+//  const filterEvent = () => {
+//      // config bouton tout 
         
-     const boutonTout = document.querySelector(".btn-tout");
-     boutonTout.addEventListener("click", () => {
-    document.querySelector(".gallery").innerHTML = "";
-    worksDisplay();
- });
+//      const boutonTout = document.querySelector(".btn-tout");
+//      boutonTout.addEventListener("click", () => {
+//     document.querySelector(".gallery").innerHTML = "";
+//     worksDisplay();
+//  });
  
- // config bouton objet
+//  // config bouton objet
  
- const boutonObjet = document.querySelector(".btn-objet");
+//  const boutonObjet = document.querySelector(".btn-objet");
  
- boutonObjet.addEventListener("click", () => {
-     const photosObjets = works.filter((work)=>{
-         return work.categoryId === 1;
-        });
-    document.querySelector(".gallery").innerHTML = "";
-    filterDisplay(photosObjets);
-});
-// // configuration bouton filtre Appartements 
- const boutonAppartement = document.querySelector(".btn-appartement");
- boutonAppartement.addEventListener("click", () => {
-     const photosObjets = works.filter((work)=>{
-         return work.categoryId === 2;
-        });
-        document.querySelector(".gallery").innerHTML = "";
-        filterDisplay(photosObjets);
-    });  
-    // // Config bouton hotel resto   
-    const boutonHotel = document.querySelector(".btn-hotel");
-    boutonHotel.addEventListener("click", () => {
-        const photosObjets = works.filter((work)=>{
-         return work.categoryId === 3;
-     });
-    document.querySelector(".gallery").innerHTML = "";
-    filterDisplay(photosObjets);
-});
-}
+//  boutonObjet.addEventListener("click", () => {
+//      const photosObjets = works.filter((work)=>{
+//          return work.categoryId === 1;
+//         });
+//     document.querySelector(".gallery").innerHTML = "";
+//     filterDisplay(photosObjets);
+// });
+// // // configuration bouton filtre Appartements 
+//  const boutonAppartement = document.querySelector(".btn-appartement");
+//  boutonAppartement.addEventListener("click", () => {
+//      const photosObjets = works.filter((work)=>{
+//          return work.categoryId === 2;
+//         });
+//         document.querySelector(".gallery").innerHTML = "";
+//         filterDisplay(photosObjets);
+//     });  
+//     // // Config bouton hotel resto   
+//     const boutonHotel = document.querySelector(".btn-hotel");
+//     boutonHotel.addEventListener("click", () => {
+//         const photosObjets = works.filter((work)=>{
+//          return work.categoryId === 3;
+//      });
+//     document.querySelector(".gallery").innerHTML = "";
+//     filterDisplay(photosObjets);
+// });
+// }
 
 
 modalEdit.addEventListener("click" , (e) => {
@@ -269,6 +272,7 @@ test.addEventListener("click", () =>{
     msgModal.innerText = "";
     preview.style.display = "none";
     preview.style.zIndex = "-1";
+    file.value = null;
     
 
 })
@@ -301,10 +305,71 @@ const showPreview = (event) => {
 }
 
 
+let categorie = [];
+
+const getCategories = async () => {
+
+    
+  await  fetch("http://localhost:5678/api/categories")
+    .then((res) => res.json())
+    .then((cat) => categorie = cat)
+    .catch((error) => {console.log(error)});
+
+ 
+}
+
+
+
+const createBtn = async () => {
+    const testbtn = document.querySelector(".bouton-filter");
+  await getCategories();
+
+    categorie.forEach((catego) => {
+        testbtn.innerHTML += `
+       <li> <button id="${catego.id}" class="newbtn"> ${catego.name} </button> </li>
+        
+        `;
+    })
+   
+    
+};
+
+
+const eventBtn = async () => {
+    await getCategories();
+//    console.log(categorie[0].id);
+
+const boutonTout = document.querySelector(".btn-tout");
+boutonTout.addEventListener("click", () => {
+document.querySelector(".gallery").innerHTML = "";
+worksDisplay();
+});
+
+
+    const newbtnfilter = document.querySelectorAll(".newbtn");
+    newbtnfilter.forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+
+            // console.log(e.target.id-1);
+            const photos = works.filter((work) => {
+                return work.categoryId === categorie[e.target.id-1].id
+            });
+            document.querySelector(".gallery").innerHTML= "";
+            filterDisplay(photos);
+            console.log(photos);
+        })
+    })
+}
+
+
+getCategories();
+createBtn();
+eventBtn();
+
 
 
 userStatus();
 worksDisplay();
-filterEvent();
+// filterEvent();
 
 
