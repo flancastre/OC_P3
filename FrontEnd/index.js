@@ -13,7 +13,13 @@ const addPicture = document.getElementById("addPicture");
 const addWork = document.getElementById("addWork");
 const back = document.getElementById("back");
 const preview = document.getElementById("file-preview");
-const file = document.getElementById("file");
+const image = document.getElementById("file");
+const category = document.getElementById("category")
+const title = document.getElementById("title");
+let files , selectCategories , tittles ;
+
+
+
 
 
 
@@ -356,12 +362,95 @@ worksDisplay();
             });
             document.querySelector(".gallery").innerHTML= "";
             filterDisplay(photos);
-            console.log(photos);
+        
         })
     })
 }
 
 
+
+const updateSelect = async () => {
+    await getCategories();
+
+    categorie.forEach((catego) => {
+        category.innerHTML += `
+            <option value="${catego.id}"> ${catego.name}</option>
+        `;
+    })
+
+    
+};
+
+
+
+// const s
+
+
+
+
+const addProject = async () => {
+
+
+        const projects = {
+            
+            image: files,     
+            title: tittles,
+            category: selectCategories,
+            
+        }
+
+        const chargeUtile = JSON.stringify(projects);
+
+        await fetch("http://localhost:5678/api/works/", {
+            method: "POST",
+            headers:{ 'accept': 'application/json',
+                        'Content-Type': 'multipart/form/data',
+                        'Authorization': `Bearer ${localStorage.getItem("token")}`},
+            body: chargeUtile,
+            mode: "cors",
+            cretentials: "same-origin"
+        })
+        .then((res) => console.log(res));
+
+}
+
+image.addEventListener("input", (e) => {
+
+   files = ` @${e.srcElement.files[0].name} `;
+
+  
+
+});
+
+title.addEventListener("input", (e) => {
+
+    tittles = e.target.value;
+
+});
+
+category.addEventListener("input", (e) => {
+    selectCategories = e.target.value;
+});
+
+
+
+
+
+const btnAddProject = () => {
+    
+    const addProjectBtn = document.getElementById("addProjectBtn");
+    addProjectBtn.addEventListener("click" , (e) => {
+        e.preventDefault();
+      addProject();
+    })
+    
+    
+}
+
+
+btnAddProject();
+
+updateSelect();
 getCategories();
 createBtn();
 eventBtn();

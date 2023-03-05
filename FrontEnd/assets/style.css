@@ -580,3 +580,8 @@ input#file {
   border: none;
   z-index: -1;
 }
+
+#addProjectBtn {
+  cursor: pointer;
+  background-color: #a7a7a7;
+}
