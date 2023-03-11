@@ -528,6 +528,11 @@ a {
   width: 80%;
   margin: 0 auto;
 }
+#addWork form hr {
+  width: 100%;
+  margin-top: 50px;
+  color: #b3b3b3;
+}
 
 #addWork label {
   margin: 2em 0 1em 0;
@@ -583,5 +588,18 @@ input#file {
 
 #addProjectBtn {
   cursor: pointer;
-  background-color: #a7a7a7;
+}
+
+#addProjectBtn:hover {
+  transform: scale(1.1);
+}
+
+#msg-addProject {
+  text-align: center;
+  color: green;
+}
+
+#checkform {
+  text-align: center;
+  color: red;
 }

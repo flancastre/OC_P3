@@ -1,5 +1,4 @@
 
-
 const modalEdit = document.getElementById("modalEdit");
 const logOut = document.getElementById("logOut");
 const logIn = document.getElementById("logIn");
@@ -13,15 +12,10 @@ const addPicture = document.getElementById("addPicture");
 const addWork = document.getElementById("addWork");
 const back = document.getElementById("back");
 const preview = document.getElementById("file-preview");
-const image = document.getElementById("file");
-const category = document.getElementById("category")
+const category = document.getElementById("category");
+const msgAddproject = document.getElementById("msg-addProject");
 const title = document.getElementById("title");
-let files , selectCategories , tittles ;
-
-
-
-
-
+const checkForm = document.getElementById("checkform");
 
 
 
@@ -190,51 +184,11 @@ const filterDisplay = (works) => {
 display(works);
  }
 
-//  const filterEvent = () => {
-//      // config bouton tout 
-        
-//      const boutonTout = document.querySelector(".btn-tout");
-//      boutonTout.addEventListener("click", () => {
-//     document.querySelector(".gallery").innerHTML = "";
-//     worksDisplay();
-//  });
- 
-//  // config bouton objet
- 
-//  const boutonObjet = document.querySelector(".btn-objet");
- 
-//  boutonObjet.addEventListener("click", () => {
-//      const photosObjets = works.filter((work)=>{
-//          return work.categoryId === 1;
-//         });
-//     document.querySelector(".gallery").innerHTML = "";
-//     filterDisplay(photosObjets);
-// });
-// // // configuration bouton filtre Appartements 
-//  const boutonAppartement = document.querySelector(".btn-appartement");
-//  boutonAppartement.addEventListener("click", () => {
-//      const photosObjets = works.filter((work)=>{
-//          return work.categoryId === 2;
-//         });
-//         document.querySelector(".gallery").innerHTML = "";
-//         filterDisplay(photosObjets);
-//     });  
-//     // // Config bouton hotel resto   
-//     const boutonHotel = document.querySelector(".btn-hotel");
-//     boutonHotel.addEventListener("click", () => {
-//         const photosObjets = works.filter((work)=>{
-//          return work.categoryId === 3;
-//      });
-//     document.querySelector(".gallery").innerHTML = "";
-//     filterDisplay(photosObjets);
-// });
-// }
-
-
 modalEdit.addEventListener("click" , (e) => {
     e.preventDefault();
     modal.style.display = "flex";
     modalsDisplay();
+    msgAddproject.innerText = "";
    
    
 })
@@ -245,6 +199,9 @@ cross.addEventListener("click" , (e) => {
     msgModal.innerText = "";
     preview.style.display = "none";
     preview.style.zIndex = "-1";
+    file.value = null;
+    title.value = null;
+    checkForm.innerText = "";
 
 })
 
@@ -256,6 +213,9 @@ cross1.addEventListener("click" , (e) => {
     msgModal.innerText = "";
     preview.style.display = "none";
     preview.style.zIndex = "-1";
+    file.value = null;
+    title.value = null;
+    checkForm.innerText = "";
 
 })
 
@@ -279,6 +239,9 @@ test.addEventListener("click", () =>{
     preview.style.display = "none";
     preview.style.zIndex = "-1";
     file.value = null;
+    title.value = null;
+    checkForm.innerText = "";
+   
     
 
 })
@@ -356,9 +319,9 @@ worksDisplay();
     newbtnfilter.forEach((btn) => {
         btn.addEventListener("click", (e) => {
 
-            // console.log(e.target.id-1);
+           
             const photos = works.filter((work) => {
-                return work.categoryId === categorie[e.target.id-1].id
+                return work.categoryId.toString() === e.target.id.toString()
             });
             document.querySelector(".gallery").innerHTML= "";
             filterDisplay(photos);
@@ -382,70 +345,79 @@ const updateSelect = async () => {
 };
 
 
-
-// const s
-
-
-
-
 const addProject = async () => {
 
+    const image = document.getElementById("file");
+    const file = image.files[0];
 
-        const projects = {
-            
-            image: files,     
-            title: tittles,
-            category: selectCategories,
-            
-        }
+    const title = document.getElementById("title").value;
 
-        const chargeUtile = JSON.stringify(projects);
+    const category = document.getElementById("category").value;
+
+    const formData = new FormData();
+    formData.append('image', file, file.name);
+    formData.append('title', title);
+    formData.append('category', category);
 
         await fetch("http://localhost:5678/api/works/", {
             method: "POST",
-            headers:{ 'accept': 'application/json',
-                        'Content-Type': 'multipart/form/data',
+            headers:{ 
                         'Authorization': `Bearer ${localStorage.getItem("token")}`},
-            body: chargeUtile,
-            mode: "cors",
-            cretentials: "same-origin"
+            body: formData
         })
-        .then((res) => console.log(res));
+        .then((res) => {
+            if (!res.ok) {
+                alert("Impossible d'ajouter le projet");
+                throw new Error("HTTP stasus" + res.status);
+            }
+            return res.json();
+        });
+
+        file.value = null;
+        checkForm.innerText = "";
+        msgAddproject.innerText = "Project corectement ajouter";
+        modal.style.display = "none";
+        addWork.style.display = "none";
+        modalWork.style.display = "block";
+        clearModals();
+        msgModal.innerText = "";
+        preview.style.display = "none";
+        preview.style.zIndex = "-1";
+        clearWorks();
+        worksDisplay();
+
 
 }
-
-image.addEventListener("input", (e) => {
-
-   files = ` @${e.srcElement.files[0].name} `;
-
-  
-
-});
-
-title.addEventListener("input", (e) => {
-
-    tittles = e.target.value;
-
-});
-
-category.addEventListener("input", (e) => {
-    selectCategories = e.target.value;
-});
-
-
 
 
 
 const btnAddProject = () => {
-    
+
+   
     const addProjectBtn = document.getElementById("addProjectBtn");
+
+
     addProjectBtn.addEventListener("click" , (e) => {
         e.preventDefault();
-      addProject();
+        
+            if (title.value === "" || preview.src === "") {
+                checkForm.innerText = "Veuillez remplir correctement tout les Champs";
+            } else {
+               
+                addProject();
+                title.value = null;
+            
+            }
+
+
     })
     
     
 }
+
+
+
+
 
 
 btnAddProject();
@@ -455,10 +427,5 @@ getCategories();
 createBtn();
 eventBtn();
 
-
-
 userStatus();
 worksDisplay();
-// filterEvent();
-
-
