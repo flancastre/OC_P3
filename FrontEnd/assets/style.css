@@ -333,6 +333,10 @@ footer nav ul {
   border: none;
 }
 
+#mdpforgot:hover {
+  text-decoration: underline;
+}
+
 #login label {
   margin: 2em 0 1em 0;
 }
