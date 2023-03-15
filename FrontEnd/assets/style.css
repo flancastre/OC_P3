@@ -607,3 +607,28 @@ input#file {
   text-align: center;
   color: red;
 }
+
+@media screen and (max-width: 760px) {
+  #file-preview {
+    width: 70%;
+  }
+
+  #modale {
+    width: 70%;
+  }
+}
+
+@media screen and (max-width: 560px) {
+  .bouton-filter li {
+    transform: scale(0.8);
+    margin: 10px 0 10px 0;
+  }
+
+  #file-preview {
+    width: 100%;
+  }
+
+  #addWork {
+    width: 70%;
+  }
+}
